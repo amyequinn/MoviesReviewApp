@@ -15,12 +15,57 @@ state = {
   movies: [],
   selectedMovieIds: [],
   filterChoice: "None",
-  sortChoice: ""
+  sortChoice: "",
+  reviewInput: ""
 }
 
 componentDidMount(){
   getMovies()
   .then(movies => this.setState({movies}))
+
+}
+
+
+
+
+updateReview = (movieObj) => {
+    fetch(`http://localhost:3000/movies/${movieObj.id}`, {
+      method: 'PATCH',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({id: movieObj.id,
+        title: movieObj.title,
+        genre: movieObj.genre,
+        plot: movieObj.plot,
+        poster: movieObj.poster,
+        year: movieObj.year,
+        review: [this.state.reviewInput].concat(movieObj.review)}
+      )
+    })
+    getMovies()
+    .then(movies => this.setState({movies}))
+}
+
+deleteReview = (movieObj, reviewToRemove) => {
+      fetch(`http://localhost:3000/movies/${movieObj.id}`, {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id: movieObj.id,
+          title: movieObj.title,
+          genre: movieObj.genre,
+          plot: movieObj.plot,
+          poster: movieObj.poster,
+          year: movieObj.year,
+          review: movieObj.review.filter(review => review !== reviewToRemove)
+        }
+        )
+      })
+      getMovies()
+      .then(movies => this.setState({movies}))
+
+}
+
+addReview = event => {
+  this.setState({reviewInput: event.target.value})
 }
 
 selectMovie = movie => {
@@ -83,13 +128,24 @@ render(){
       changeSortChoice={this.changeSortChoice}
       sortChoice={this.state.sortChoice}
       />
-    <div className="row">
-    <div className="col-4">
-    <MovieContainer movies={this.getSelectedMovie()} selectMovie={this.removeMovie} title={"Favourite Movies"}/>
-    </div>
-    <div className="col-8">
-    <MovieContainer movies={sortedMovies} selectMovie={this.selectMovie} title={"Movies"}/>
-    </div>
+    <div className="movie-containers">
+    <MovieContainer
+    selectedMovieIds={this.state.selectedMovieIds}
+    movies={this.getSelectedMovie()}
+    selectMovie={this.selectMovie}
+    removeMovie={this.removeMovie}
+    title={"Favourite Movies"}
+    />
+    <MovieContainer
+      selectedMovieIds={this.state.selectedMovieIds}
+      movies={sortedMovies}
+      removeMovie={this.removeMovie}
+      selectMovie={this.selectMovie}
+      title={"Movies"}
+      addReview={this.addReview}
+      updateReview={this.updateReview}
+      deleteReview={this.deleteReview}
+    />
     </div>
     </div>
   )

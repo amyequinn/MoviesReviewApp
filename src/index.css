@@ -17,3 +17,13 @@ h2{
   margin: 0 auto;
   text-align: center;
 }
+
+
+.movie-containers {
+    display: flex;
+    flex-direction: row;
+}
+
+.movie-containers > div {
+    width: 50%;
+}
