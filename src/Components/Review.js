@@ -5,7 +5,7 @@ const Review = (props) => {
     return(
       <ul>
       {
-        props.review && props.review.map(r => <li>{r}<button className="ui icon button basic negative" onClick={() => props.deleteReview(props.movie, r)}>X</button></li>)
+        props.review && props.review.map(r => <div>{r}<button className="mini ui icon button basic negative" onClick={() => props.deleteReview(props.movie, r)}>X</button></div>)
       }
       </ul>
     )

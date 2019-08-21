@@ -20,6 +20,7 @@ class MovieContainer extends React.Component{
         {
           this.props.movies.filter((movie) => movie.title.toLowerCase().includes(this.state.searchInput.toLowerCase()))
           .map(movie => <MovieCard
+            title={this.props.title}
             deleteReview={this.props.deleteReview}
             movie={movie}
             isFavourite={this.props.selectedMovieIds.includes(movie.id)}

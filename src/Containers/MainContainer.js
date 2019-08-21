@@ -129,13 +129,18 @@ render(){
       sortChoice={this.state.sortChoice}
       />
     <div className="movie-containers">
+
     <MovieContainer
     selectedMovieIds={this.state.selectedMovieIds}
     movies={this.getSelectedMovie()}
     selectMovie={this.selectMovie}
     removeMovie={this.removeMovie}
     title={"Favourite Movies"}
+    addReview={this.addReview}
+    updateReview={this.updateReview}
+    deleteReview={this.deleteReview}
     />
+
     <MovieContainer
       selectedMovieIds={this.state.selectedMovieIds}
       movies={sortedMovies}
@@ -148,19 +153,10 @@ render(){
     />
     </div>
     </div>
+    
   )
 }
 
-
 }
-
-
-
-
-
-
-
-
-
 
 export default MainContainer
